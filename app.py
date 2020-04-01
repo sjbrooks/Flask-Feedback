@@ -94,11 +94,15 @@ def user_detail(username):
     if "user_username" not in session:
         flash("You must be logged in to view")
         return redirect('/')
+        
+    if session["user_username"] == username:
+        user = User.query.get(username)
+        return render_template('user.html',
+                               user=user)
+    else:
+        username = session["user_username"]
+        return redirect(f'/users/{username}')
 
-    user = User.query.get(username)
-
-    return render_template('user.html',
-                           user=user)
 
 @app.route('/logout')
 def logout():
@@ -107,3 +111,26 @@ def logout():
     session.pop("user_username", None)
 
     return redirect("/")
+
+
+@app.route('/users/<username>/delete', methods=['POST'])
+def delete_user(username):
+    """Delete user"""
+
+    if "user_username" not in session:
+        flash("You must be logged in to view")
+        return redirect('/')
+        
+    if session["user_username"] == username:
+        user = User.query.filter(User.username == username)
+        user.delete()
+        db.session.commit()
+
+        session.pop("user_username", None)
+        flash(f'Deleted {username}')
+        return redirect('/')
+    else:
+        username = session["user_username"]
+        flash(f'To delete your user, {username}, click delete below')
+        return redirect(f'/users/{username}')
+
