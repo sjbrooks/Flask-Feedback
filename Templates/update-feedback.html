@@ -1,14 +1,14 @@
 {% extends "base.html" %}
 
 {% block title %}
-  Add Feedback
+  Update Feedback
 {% endblock %}
 
 {% block content %}
 
-<h1>Add feedback</h1>
+<h1>Update feedback</h1>
 
-<form id="new-feedback" method="POST">
+<form id="update-feedback" method="POST">
   {{ form.hidden_tag() }}
 
   {% for field in form
@@ -24,6 +24,10 @@
     </div>
     {% endfor %}
     <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+<form action="/feedback/{{ feedback.id }}/delete" method="POST">
+  <button class="btn btn-danger">Delete</button>
 </form>
 
 {% endblock %}

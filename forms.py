@@ -39,5 +39,16 @@ class addFeedbackForm(FlaskForm):
                         validators=[InputRequired(),
                                     Length(min=1, max=100)])
 
-    content = StringField("Title",
+    content = StringField("Content",
+                          validators=[InputRequired()])
+
+
+class updateFeedbackForm(FlaskForm):
+    """Form for user to update feedback"""
+
+    title = StringField("Title",
+                        validators=[InputRequired(),
+                                    Length(min=1, max=100)])
+
+    content = StringField("Content",
                           validators=[InputRequired()])
